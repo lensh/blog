@@ -12,7 +12,8 @@ const specialDirMap = {
     'practice-mode': '设计模式',
     'network': '计算机网络',
     'suanfa': '算法和数据结构',
-    'interview': '面试题'
+    'interview': '面试题',
+    'browser': '浏览器'
 }
 let sidebar = {},
     docsPath = path.resolve(__dirname, '../'), // docs目录的path
@@ -34,7 +35,9 @@ docsDirs.map(dir => {  // 遍历每个博客目录
     sidebar[`/${dir}/`] = configArr;
     function addConfig(item) {
         const files = fs.readdirSync(path.join(blogDirPath, item));
-        const formatFiles = files.map(file => {
+        const formatFiles = files.sort((a, b) => {
+            return a.split('.')[0] - b.split('.')[0]
+        }).map(file => {
             const fileName = file.replace('.md', '.html'); // 替换md为html
             return `/${dir}/${item}/${fileName}`
         });
@@ -50,12 +53,17 @@ docsDirs.map(dir => {  // 遍历每个博客目录
 sidebar['/'] = [];
 
 module.exports = {
-    base:'/blog/',
+    base: '/blog/',
     title: '洛清寒前端进阶',
     themeConfig: {
+        repo: 'lensh/blog',
+        repoLabel: '查看源码',
+        docsDir: 'docs',
+        editLinkText: '帮助我们改善此页面！',
         lastUpdated: 'Last Updated', // string | boolean
         smoothScroll: true,
         logo: '/images/blog.jpg',
+        sidebar,
         nav: [
             { text: 'Home', link: '/' },
             { text: '进阶博文', link: '/blog/' },
@@ -69,7 +77,6 @@ module.exports = {
                     { text: 'react-ssr', link: 'https://github.com/lensh/React-SSR' }
                 ]
             }
-        ],
-        sidebar
+        ]
     }
 }

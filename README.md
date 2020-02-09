@@ -3,4 +3,4 @@
 
 正在努力写作中，如怕遗漏 Star 、Follow 走起。
 
-在线预览地址，[洛清寒前端进阶博文](https://lensh.github.io/)
+在线预览地址，[洛清寒前端进阶博文](https://lensh.github.io/blog/)
