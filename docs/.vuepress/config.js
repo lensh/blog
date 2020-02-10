@@ -10,7 +10,7 @@ const specialDirMap = {
     'server': '服务端框架',
     'coding': '编程题',
     'practice-mode': '设计模式',
-    'network': '计算机网络',
+    'network': '网络和网络安全',
     'suanfa': '算法和数据结构',
     'interview': '面试题',
     'browser': '浏览器'
@@ -56,10 +56,6 @@ module.exports = {
     base: '/blog/',
     title: '洛清寒前端进阶',
     themeConfig: {
-        repo: 'lensh/blog',
-        repoLabel: '查看源码',
-        docsDir: 'docs',
-        editLinkText: '帮助我们改善此页面！',
         lastUpdated: 'Last Updated', // string | boolean
         smoothScroll: true,
         logo: '/images/blog.jpg',
