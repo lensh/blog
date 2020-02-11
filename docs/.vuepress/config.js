@@ -12,7 +12,6 @@ const specialDirMap = {
     'practice-mode': '设计模式',
     'network': '网络和网络安全',
     'suanfa': '算法和数据结构',
-    'interview': '面试题',
     'browser': '浏览器'
 }
 let sidebar = {},
@@ -65,8 +64,9 @@ module.exports = {
             { text: '进阶博文', link: '/blog/' },
             { text: '笔试面试', link: '/interview/' },
             { text: '大厂面经', link: 'https://juejin.im/post/5dfef50751882512444027eb' },
+            { text: 'Github', link: 'https://github.com/lensh/blog' },
             {
-                text: 'Github',
+                text: '项目',
                 items: [
                     { text: 'vue-qq', link: 'https://github.com/lensh/vue-qq' },
                     { text: 'mini-promise', link: 'https://github.com/lensh/mini-promise' },
