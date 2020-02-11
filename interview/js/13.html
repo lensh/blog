@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>深入Object.defineProperty | 洛清寒前端进阶</title>
+    <meta name="description" content="">
+    <meta name="generator" content="VuePress 1.3.0">
+    
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.bb0d65c1.css" as="style"><link rel="preload" href="/blog/assets/js/app.4d96c53e.js" as="script"><link rel="preload" href="/blog/assets/js/2.a9ec72d1.js" as="script"><link rel="preload" href="/blog/assets/js/44.754b4fab.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.77389835.js"><link rel="prefetch" href="/blog/assets/js/11.9a95e166.js"><link rel="prefetch" href="/blog/assets/js/12.1659776e.js"><link rel="prefetch" href="/blog/assets/js/13.9d80e6cc.js"><link rel="prefetch" href="/blog/assets/js/14.748c57c3.js"><link rel="prefetch" href="/blog/assets/js/15.02b2a8b6.js"><link rel="prefetch" href="/blog/assets/js/16.92afd781.js"><link rel="prefetch" href="/blog/assets/js/17.50cf4b4b.js"><link rel="prefetch" href="/blog/assets/js/18.0353da46.js"><link rel="prefetch" href="/blog/assets/js/19.99e2bd93.js"><link rel="prefetch" href="/blog/assets/js/20.dcf807d4.js"><link rel="prefetch" href="/blog/assets/js/21.5f10ff5f.js"><link rel="prefetch" href="/blog/assets/js/22.10e9adeb.js"><link rel="prefetch" href="/blog/assets/js/23.4cb9121c.js"><link rel="prefetch" href="/blog/assets/js/24.dfd2d0ea.js"><link rel="prefetch" href="/blog/assets/js/25.f8792229.js"><link rel="prefetch" href="/blog/assets/js/26.161a0d2f.js"><link rel="prefetch" href="/blog/assets/js/27.609ca2bd.js"><link rel="prefetch" href="/blog/assets/js/28.74fafcba.js"><link rel="prefetch" href="/blog/assets/js/29.182d9bd2.js"><link rel="prefetch" href="/blog/assets/js/3.62b67fc4.js"><link rel="prefetch" href="/blog/assets/js/30.57dd1350.js"><link rel="prefetch" href="/blog/assets/js/31.49600992.js"><link rel="prefetch" href="/blog/assets/js/32.7381e84e.js"><link rel="prefetch" href="/blog/assets/js/33.cb0e280b.js"><link rel="prefetch" href="/blog/assets/js/34.10983cae.js"><link rel="prefetch" href="/blog/assets/js/35.efbdbc21.js"><link rel="prefetch" href="/blog/assets/js/36.1e5e4a19.js"><link rel="prefetch" href="/blog/assets/js/37.93097d3d.js"><link rel="prefetch" href="/blog/assets/js/38.3a942093.js"><link rel="prefetch" href="/blog/assets/js/39.7cc7a537.js"><link rel="prefetch" href="/blog/assets/js/4.13e4e37b.js"><link rel="prefetch" href="/blog/assets/js/40.609cfb28.js"><link rel="prefetch" href="/blog/assets/js/41.7c3e849f.js"><link rel="prefetch" href="/blog/assets/js/42.81422964.js"><link rel="prefetch" href="/blog/assets/js/43.335a6518.js"><link rel="prefetch" href="/blog/assets/js/45.64447c20.js"><link rel="prefetch" href="/blog/assets/js/46.803d5f0c.js"><link rel="prefetch" href="/blog/assets/js/47.d4622c57.js"><link rel="prefetch" href="/blog/assets/js/48.96ca283d.js"><link rel="prefetch" href="/blog/assets/js/49.63042edb.js"><link rel="prefetch" href="/blog/assets/js/5.33237216.js"><link rel="prefetch" href="/blog/assets/js/50.708578f1.js"><link rel="prefetch" href="/blog/assets/js/51.92207ff7.js"><link rel="prefetch" href="/blog/assets/js/52.d4a8bd9d.js"><link rel="prefetch" href="/blog/assets/js/53.24bead76.js"><link rel="prefetch" href="/blog/assets/js/54.5d5c0c91.js"><link rel="prefetch" href="/blog/assets/js/55.636e684f.js"><link rel="prefetch" href="/blog/assets/js/56.c3cd471d.js"><link rel="prefetch" href="/blog/assets/js/57.4ccc03b2.js"><link rel="prefetch" href="/blog/assets/js/58.ab320273.js"><link rel="prefetch" href="/blog/assets/js/59.d9d12af6.js"><link rel="prefetch" href="/blog/assets/js/6.14f0c0ef.js"><link rel="prefetch" href="/blog/assets/js/60.2d07b7f0.js"><link rel="prefetch" href="/blog/assets/js/61.fdbd3c09.js"><link rel="prefetch" href="/blog/assets/js/62.f0f1105b.js"><link rel="prefetch" href="/blog/assets/js/63.efec7adb.js"><link rel="prefetch" href="/blog/assets/js/64.65f1fde6.js"><link rel="prefetch" href="/blog/assets/js/65.c02b230a.js"><link rel="prefetch" href="/blog/assets/js/7.c6e553de.js"><link rel="prefetch" href="/blog/assets/js/8.67965e6b.js"><link rel="prefetch" href="/blog/assets/js/9.743d0d51.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.bb0d65c1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><img src="/blog/images/blog.jpg" alt="洛清寒前端进阶" class="logo"> <span class="site-name can-hide">洛清寒前端进阶</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/blog/blog/" class="nav-link">
+  进阶博文
+</a></div><div class="nav-item"><a href="/blog/interview/" class="nav-link router-link-active">
+  笔试面试
+</a></div><div class="nav-item"><a href="https://juejin.im/post/5dfef50751882512444027eb" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  大厂面经
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Github" class="dropdown-title"><span class="title">Github</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/lensh/vue-qq" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  vue-qq
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/lensh/mini-promise" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  mini-promise
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/lensh/React-SSR" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  react-ssr
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/blog/blog/" class="nav-link">
+  进阶博文
+</a></div><div class="nav-item"><a href="/blog/interview/" class="nav-link router-link-active">
+  笔试面试
+</a></div><div class="nav-item"><a href="https://juejin.im/post/5dfef50751882512444027eb" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  大厂面经
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Github" class="dropdown-title"><span class="title">Github</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/lensh/vue-qq" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  vue-qq
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/lensh/mini-promise" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  mini-promise
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/lensh/React-SSR" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  react-ssr
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/css/1.html" class="sidebar-heading clickable"><span>css</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/es6/1.html" class="sidebar-heading clickable"><span>es6</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/html/1.html" class="sidebar-heading clickable"><span>html</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/js/1.html" class="sidebar-heading clickable open"><span>js</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/interview/js/1.html" class="sidebar-link">面向对象和原型链</a></li><li><a href="/blog/interview/js/2.html" class="sidebar-link">JS运行机制-Event Loop（事件循环）</a></li><li><a href="/blog/interview/js/3.html" class="sidebar-link">每隔一秒输出一个数字，从 0 - 5</a></li><li><a href="/blog/interview/js/4.html" class="sidebar-link">模块化</a></li><li><a href="/blog/interview/js/5.html" class="sidebar-link">防抖和节流</a></li><li><a href="/blog/interview/js/6.html" class="sidebar-link">数组扁平化和柯里化</a></li><li><a href="/blog/interview/js/7.html" class="sidebar-link">判断数组的方法</a></li><li><a href="/blog/interview/js/8.html" class="sidebar-link">面试题</a></li><li><a href="/blog/interview/js/9.html" class="sidebar-link">事件机制、事件模型、事件流</a></li><li><a href="/blog/interview/js/10.html" class="sidebar-link">前端监控</a></li><li><a href="/blog/interview/js/11.html" class="sidebar-link">同源策略、跨域</a></li><li><a href="/blog/interview/js/12.html" class="sidebar-link">防篡改对象</a></li><li><a href="/blog/interview/js/13.html" class="active sidebar-link">深入Object.defineProperty</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#一、数据描述符" class="sidebar-link">一、数据描述符</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#value" class="sidebar-link">value</a></li><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#writable" class="sidebar-link">writable</a></li><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#enumerable" class="sidebar-link">enumerable</a></li><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#configurable" class="sidebar-link">configurable</a></li></ul></li><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#二、存取描述符" class="sidebar-link">二、存取描述符</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#getter-setter" class="sidebar-link">getter/setter</a></li></ul></li><li class="sidebar-sub-header"><a href="/blog/interview/js/13.html#三、兼容性" class="sidebar-link">三、兼容性</a></li></ul></li><li><a href="/blog/interview/js/14.html" class="sidebar-link">getBoundingClientRect()</a></li><li><a href="/blog/interview/js/15.html" class="sidebar-link">变量提升和函数提升</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/node/node.html" class="sidebar-heading clickable"><span>node</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/react/react.html" class="sidebar-heading clickable"><span>react</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/vue/vue.html" class="sidebar-heading clickable"><span>vue</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/webpack/webpack.html" class="sidebar-heading clickable"><span>webpack</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/browser/1.html" class="sidebar-heading clickable"><span>浏览器</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/coding/coding.html" class="sidebar-heading clickable"><span>编程题</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/interview/interview.html" class="sidebar-heading clickable"><span>面试题</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/network/1.html" class="sidebar-heading clickable"><span>网络和网络安全</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/practice-mode/practice-mode.html" class="sidebar-heading clickable"><span>设计模式</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/blog/interview/suanfa/suanfa.html" class="sidebar-heading clickable"><span>算法和数据结构</span> <span class="arrow right"></span></a> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="深入object-defineproperty"><a href="#深入object-defineproperty" class="header-anchor">#</a> 深入Object.defineProperty</h1> <p>对象是由多个名/值对组成的无序的集合。对象中每个属性对应任意类型的值。定义对象可以使用构造函数或字面量的形式：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">;</span>  <span class="token comment">//obj = {}</span>
+obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">&quot;张三&quot;</span><span class="token punctuation">;</span>  <span class="token comment">//添加描述</span>
+obj<span class="token punctuation">.</span><span class="token function-variable function">say</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>  <span class="token comment">//添加行为</span>
+</code></pre></div><p>除了以上添加属性的方式，还可以使用Object.defineProperty定义新属性或修改原有的属性。</p> <p>Object.defineProperty() 语法：<code>Object.defineProperty(obj, prop, descriptor)</code></p> <p>参数说明：</p> <ul><li>obj：必需。目标对象</li> <li>prop：必需。需定义或修改的属性的名字</li> <li>descriptor：必需。目标属性所拥有的特性</li> <li>返回值：传入函数的对象，即第一个参数obj</li></ul> <p>针对属性，我们可以给这个属性设置一些特性，比如是否只读不可以写；是否可以被for..in或Object.keys()遍历。给对象的属性添加特性描述，目前提供两种形式：数据描述符和存取描述符。</p> <h2 id="一、数据描述符"><a href="#一、数据描述符" class="header-anchor">#</a> 一、数据描述符</h2> <p>当修改或定义对象的某个属性的时候，给这个属性添加一些特性：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    test<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//对象已有的属性添加特性描述</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    configurable<span class="token operator">:</span><span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    value<span class="token operator">:</span><span class="token string">'任意类型的值'</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//对象新添加的属性的特性描述</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    configurable<span class="token operator">:</span><span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    value<span class="token operator">:</span><span class="token string">'任意类型的值'</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>数据描述中的属性都是可选的，来看一下设置每一个属性的作用。</p> <h3 id="value"><a href="#value" class="header-anchor">#</a> value</h3> <p>属性对应的值,可以使任意类型的值，默认为undefined</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token comment">//第一种情况：不设置value属性</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//undefined</span>
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
+<span class="token comment">//第二种情况：设置value属性</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//hello</span>
+</code></pre></div><h3 id="writable"><a href="#writable" class="header-anchor">#</a> writable</h3> <p>属性的值是否可以被重写。设置为true可以被重写；设置为false，不能被重写。默认为false。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token comment">//第一种情况：writable设置为false，不能重写。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//更改newKey的值</span>
+obj<span class="token punctuation">.</span>newKey <span class="token operator">=</span> <span class="token string">&quot;change value&quot;</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//hello</span>
+
+<span class="token comment">//第二种情况：writable设置为true，可以重写</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//更改newKey的值</span>
+obj<span class="token punctuation">.</span>newKey <span class="token operator">=</span> <span class="token string">&quot;change value&quot;</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//change value</span>
+</code></pre></div><h3 id="enumerable"><a href="#enumerable" class="header-anchor">#</a> enumerable</h3> <p>此属性是否可以被枚举（使用for...in或Object.keys()）。设置为true可以被枚举；设置为false，不能被枚举。默认为false。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token comment">//第一种情况：enumerable设置为false，不能被枚举。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//枚举对象的属性</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span> <span class="token keyword">var</span> attr <span class="token keyword">in</span> obj <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> attr <span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+<span class="token comment">//第二种情况：enumerable设置为true，可以被枚举。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//枚举对象的属性</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span> <span class="token keyword">var</span> attr <span class="token keyword">in</span> obj <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> attr <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//newKey</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="configurable"><a href="#configurable" class="header-anchor">#</a> configurable</h3> <p>是否可以删除目标属性或是否可以再次修改属性的特性（writable, configurable, enumerable）。设置为true可以被删除或可以重新设置特性；设置为false，不能被可以被删除或不可以重新设置特性。默认为false。</p> <p>这个属性起到两个作用：</p> <p>目标属性是否可以使用delete删除</p> <p>目标属性是否可以再次设置特性</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//-----------------测试目标属性是否能被删除------------------------</span>
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token comment">//第一种情况：configurable设置为false，不能被删除。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    configurable<span class="token operator">:</span><span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//删除属性</span>
+<span class="token keyword">delete</span> obj<span class="token punctuation">.</span>newKey<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//hello</span>
+
+<span class="token comment">//第二种情况：configurable设置为true，可以被删除。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    configurable<span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//删除属性</span>
+<span class="token keyword">delete</span> obj<span class="token punctuation">.</span>newKey<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//undefined</span>
+
+
+<span class="token comment">//-----------------测试是否可以再次修改特性------------------------</span>
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token comment">//第一种情况：configurable设置为false，不能再次修改特性。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    configurable<span class="token operator">:</span><span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//重新修改特性</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    configurable<span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//报错：Uncaught TypeError: Cannot redefine property: newKey</span>
+
+<span class="token comment">//第二种情况：configurable设置为true，可以再次修改特性。</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    configurable<span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//重新修改特性</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    value<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">,</span>
+    writable<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    enumerable<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+    configurable<span class="token operator">:</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//hello</span>
+</code></pre></div><p>除了可以给新定义的属性设置特性，也可以给已有的属性设置特性</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//定义对象的时候添加的属性，是可删除、可重写、可枚举的。</span>
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    test<span class="token operator">:</span><span class="token string">&quot;hello&quot;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//改写值</span>
+obj<span class="token punctuation">.</span>test <span class="token operator">=</span> <span class="token string">'change value'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>test <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//'change value'</span>
+
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    writable<span class="token operator">:</span><span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+
+<span class="token comment">//再次改写值</span>
+obj<span class="token punctuation">.</span>test <span class="token operator">=</span> <span class="token string">'change value again'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>test <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//依然是：'change value'</span>
+</code></pre></div><p><strong>提示：一旦使用Object.defineProperty给对象添加属性，那么如果不设置属性的特性，那么configurable、enumerable、writable这些值都为默认的false</strong></p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">//定义的新属性后，这个属性的特性中configurable，enumerable，writable都为默认的值false</span>
+<span class="token comment">//这就导致了neykey这个是不能重写、不能枚举、不能再次设置特性</span>
+<span class="token comment">//</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">'newKey'</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//设置值</span>
+obj<span class="token punctuation">.</span>newKey <span class="token operator">=</span> <span class="token string">'hello'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>newKey<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//undefined</span>
+
+<span class="token comment">//枚举</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span> <span class="token keyword">var</span> attr <span class="token keyword">in</span> obj <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>attr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>设置的特性总结：</p> <div class="language- extra-class"><pre class="language-text"><code>value: 设置属性的值
+writable: 值是否可以重写。true | false
+enumerable: 目标属性是否可以被枚举。true | false
+configurable: 目标属性是否可以被删除或是否可以再次修改特性 true | false
+</code></pre></div><h2 id="二、存取描述符"><a href="#二、存取描述符" class="header-anchor">#</a> 二、存取描述符</h2> <p>当使用存取器描述属性的特性的时候，允许设置以下特性属性：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    <span class="token function-variable function">get</span><span class="token operator">:</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token operator">|</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">set</span><span class="token operator">:</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token operator">|</span> <span class="token keyword">undefined</span>
+    configurable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span>
+    enumerable<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token operator">|</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>注意：当使用了getter或setter方法，不允许使用writable和value这两个属性</p> <h3 id="getter-setter"><a href="#getter-setter" class="header-anchor">#</a> getter/setter</h3> <p>当设置或获取对象的某个属性的值的时候，可以提供getter/setter方法。</p> <div class="language- extra-class"><pre class="language-text"><code>getter 是一种获得属性值的方法
+setter是一种设置属性值的方法。
+在特性中使用get/set属性来定义对应的方法。
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> initValue <span class="token operator">=</span> <span class="token string">'hello'</span><span class="token punctuation">;</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token string">&quot;newKey&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+    <span class="token function-variable function">get</span><span class="token operator">:</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">//当获取值的时候触发的函数</span>
+        <span class="token keyword">return</span> initValue<span class="token punctuation">;</span>    
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">set</span><span class="token operator">:</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">//当设置值的时候触发的函数,设置的新值通过参数value拿到</span>
+        initValue <span class="token operator">=</span> value<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//获取值</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//hello</span>
+
+<span class="token comment">//设置值</span>
+obj<span class="token punctuation">.</span>newKey <span class="token operator">=</span> <span class="token string">'change value'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> obj<span class="token punctuation">.</span>newKey <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//change value</span>
+</code></pre></div><p>注意：get或set不是必须成对出现，任写其一就可以。如果不设置方法，则get和set的默认值为undefined</p> <p>configurable和enumerable同上面的用法。</p> <h2 id="三、兼容性"><a href="#三、兼容性" class="header-anchor">#</a> 三、兼容性</h2> <p>在ie8下只能在DOM对象上使用，尝试在原生的对象使用 Object.defineProperty()会报错。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2/11/2020, 9:39:58 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/blog/interview/js/12.html" class="prev">
+        防篡改对象
+      </a></span> <span class="next"><a href="/blog/interview/js/14.html">
+        getBoundingClientRect()
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/blog/assets/js/app.4d96c53e.js" defer></script><script src="/blog/assets/js/2.a9ec72d1.js" defer></script><script src="/blog/assets/js/44.754b4fab.js" defer></script>
+  </body>
+</html>
