@@ -54,6 +54,9 @@ sidebar['/'] = [];
 module.exports = {
     base: '/blog/',
     title: '洛清寒前端进阶',
+    markdown: {
+        lineNumbers: true
+    },
     themeConfig: {
         lastUpdated: 'Last Updated', // string | boolean
         smoothScroll: true,
