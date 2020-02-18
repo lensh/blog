@@ -59,7 +59,7 @@ module.exports = {
     },
     themeConfig: {
         lastUpdated: 'Last Updated', // string | boolean
-        smoothScroll: true,
+        // smoothScroll: true,
         logo: '/images/blog.jpg',
         sidebar,
         nav: [
