@@ -12,7 +12,8 @@ const specialDirMap = {
     'practice-mode': '设计模式',
     'network': '网络和网络安全',
     'suanfa': '算法和数据结构',
-    'browser': '浏览器'
+    'browser': '浏览器',
+    'question':'面试题'
 }
 let sidebar = {},
     docsPath = path.resolve(__dirname, '../'), // docs目录的path
@@ -65,7 +66,8 @@ module.exports = {
         nav: [
             { text: '首页', link: '/' },
             { text: '进阶博文', link: '/blog/' },
-            { text: '笔试面试', link: '/interview/' },
+            { text: '面试之道', link: '/interview/' },
+            // { text: 'leetcode', link: '/leetcode/' },
             { text: 'Github', link: 'https://github.com/lensh/blog' },
             { text: '大厂面经', link: 'https://juejin.im/post/5e65a953518825495a27860b' },
             {
