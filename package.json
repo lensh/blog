@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx vuepress dev docs --temp .temp",
-    "build": "npx vuepress build docs",
+    "dev": "vuepress dev docs --temp .temp",
+    "build": "vuepress build docs",
     "push": "git push origin master"
   },
   "author": "",
