@@ -6,8 +6,6 @@ const specialDirMap = {
     'react-native': 'React Native',
     'wx-mini-game': '微信小程序',
     'wx-mini-number': '微信公众号',
-    'frame': '跨端框架',
-    'server': '服务端框架',
     'coding': '编程题',
     'practice-mode': '设计模式',
     'network': '网络和网络安全',
