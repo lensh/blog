@@ -4,7 +4,7 @@ const path = require('path');
 const specialDirMap = {
     'ssr': '服务端渲染SSR',
     'react-native': 'React Native',
-    'wx-mini-game': '微信小程序',
+    'mini-game': '小程序',
     'wx-mini-number': '微信公众号',
     'coding': '编程题',
     'practice-mode': '设计模式',
