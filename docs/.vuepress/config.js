@@ -5,7 +5,6 @@ const specialDirMap = {
     'ssr': '服务端渲染SSR',
     'react-native': 'React Native',
     'mini-game': '小程序',
-    'wx-mini-number': '微信公众号',
     'coding': '编程题',
     'practice-mode': '设计模式',
     'network': '网络和网络安全',
