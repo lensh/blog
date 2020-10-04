@@ -62,8 +62,8 @@ module.exports = {
         sidebar,
         nav: [
             { text: '首页', link: '/' },
+            { text: '前端基础', link: '/interview/' },
             { text: '进阶博文', link: '/blog/' },
-            { text: '面试之道', link: '/interview/' },
             { text: '大厂面经', link: 'https://juejin.im/post/5e65a953518825495a27860b' },
             { text: 'Github', link: 'https://github.com/lensh/blog' },
             {
