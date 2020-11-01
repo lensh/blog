@@ -1,7 +1,7 @@
 {
   "name": "blog",
   "version": "1.0.0",
-  "description": "",
+  "description": "这里是 洛清寒 的博客，所思所想汇总于此，在进阶之路上笔耕不辍，希望我的文章对你有所帮助，共勉！",
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev docs --temp .temp",
@@ -12,5 +12,17 @@
   "license": "ISC",
   "dependencies": {
     "vuepress": "^1.3.0"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lensh/blog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lensh/blog/issues"
+  },
+  "homepage": "https://github.com/lensh/blog#readme"
 }

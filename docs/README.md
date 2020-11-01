@@ -3,8 +3,8 @@ home: true
 heroImage: /images/blog.jpg
 heroText: 洛清寒前端进阶
 tagline: 高级前端进阶之路
-actionText: 快速上手 →
-actionLink: /blog/
+actionText: 快速上手
+actionLink: /interview/
 features:
 - title: 前端·基础
   details: 前端工程师必备的基础技能！
