@@ -12,5 +12,5 @@ features:
   details: 前端工程师进阶所需要学习的技能，在进阶之路上，共勉！
 - title: 大厂·面经
   details: 精选优质大厂面经，敲开大厂之门！
-footer: MIT Licensed | Copyright © 2020-present Qhan Luo
+footer: MIT Licensed | Copyright © 2022-present Qhan Luo
 ---

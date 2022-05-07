@@ -64,7 +64,7 @@ module.exports = {
             { text: '首页', link: '/' },
             { text: '前端基础', link: '/interview/' },
             { text: '进阶博文', link: '/blog/' },
-            { text: '大厂面经', link: 'https://juejin.im/post/5e65a953518825495a27860b' },
+            { text: '大厂面经', link: 'https://juejin.cn/post/7004638318843412493' },
             { text: 'Github', link: 'https://github.com/lensh/blog' },
             {
                 text: '项目',
