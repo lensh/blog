@@ -4,8 +4,8 @@
   "description": "这里是 洛清寒 的博客，所思所想汇总于此，在进阶之路上笔耕不辍，希望我的文章对你有所帮助，共勉！",
   "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev docs --temp .temp",
-    "build": "vuepress build docs",
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs --temp .temp",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs",
     "push": "git push origin master"
   },
   "author": "",
