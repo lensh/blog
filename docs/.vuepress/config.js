@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const specialDirMap = {
+    'javascript-high': 'javascript高级',
     'ssr': '服务端渲染SSR',
     'react-native': 'React Native',
     'mini-game': '小程序',
@@ -10,7 +11,7 @@ const specialDirMap = {
     'network': '网络和网络安全',
     'suanfa': '算法和数据结构',
     'browser': '浏览器',
-    'question': '面试题'
+    'question': '面试题',
 }
 let sidebar = {},
     docsPath = path.resolve(__dirname, '../'), // docs目录的path
