@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const specialDirMap = {
-    'javascript-high': 'javascript深度剖析',
+    '1.javascript-high': '1、javascript深度剖析',
     'ssr': '服务端渲染SSR',
     'react-native': 'React Native',
     'mini-game': '小程序',
@@ -12,7 +12,7 @@ const specialDirMap = {
     'suanfa': '算法和数据结构',
     'browser': '浏览器',
     'question': '面试题',
-    'front-program': '前端工程化'
+    '2.front-program': '2、前端工程化'
 }
 let sidebar = {},
     docsPath = path.resolve(__dirname, '../'), // docs目录的path
@@ -64,16 +64,24 @@ module.exports = {
         sidebar,
         nav: [
             { text: '首页', link: '/' },
-            { text: '前端基础', link: '/interview/' },
-            { text: '进阶博文', link: '/blog/' },
-            { text: '大厂面经', link: 'https://juejin.cn/post/7004638318843412493' },
-            { text: 'Github', link: 'https://github.com/lensh/blog' },
+            { text: '拉勾-大前端', link: '/lagou-bigfront/' },
+            { text: '慕课-大前端', link: '/muke-bigfront/' },
+            { text: '慕课-前端架构师', link: '/muke-jiagou/' },
+            { text: '博文-基础', link: '/interview/' },
+            { text: '博文-进阶', link: '/blog/' },
             {
-                text: '项目',
+                text: '其它',
                 items: [
-                    { text: 'vue-qq', link: 'https://github.com/lensh/vue-qq' },
-                    { text: 'mini-promise', link: 'https://github.com/lensh/mini-promise' },
-                    { text: 'react-ssr', link: 'https://github.com/lensh/React-SSR' }
+                    { text: '大厂面经', link: 'https://juejin.cn/post/7004638318843412493' },
+                    { text: 'Github', link: 'https://github.com/lensh/blog' },
+                    {
+                        text: '项目',
+                        items: [
+                            { text: 'vue-qq', link: 'https://github.com/lensh/vue-qq' },
+                            { text: 'mini-promise', link: 'https://github.com/lensh/mini-promise' },
+                            { text: 'react-ssr', link: 'https://github.com/lensh/React-SSR' }
+                        ]
+                    }
                 ]
             }
         ]
